@@ -1,0 +1,22 @@
+{
+  "name": "open-fiance-agent-orch-support-desk",
+  "version": "1.0.0",
+  "description": "this is agent orch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aimlessss/open-fiance-agent-orch-support-desk.git"
+  },
+  "keywords": [
+    "orch"
+  ],
+  "author": "atharva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aimlessss/open-fiance-agent-orch-support-desk/issues"
+  },
+  "homepage": "https://github.com/Aimlessss/open-fiance-agent-orch-support-desk#readme"
+}
