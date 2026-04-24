@@ -9,4 +9,8 @@ export class RagCoreMiddleware {
             apiKey : key
         })
     }
+
+    async onRequest(request : any){
+        
+    }
 }
