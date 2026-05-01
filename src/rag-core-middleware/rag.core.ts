@@ -1,4 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
+import { TIncomingTicketToAgent } from "../dto";
 
 export class RagCoreMiddleware {
 
@@ -10,7 +11,7 @@ export class RagCoreMiddleware {
         })
     }
 
-    async onRequest(request : any){
+    async onRequest(request : TIncomingTicketToAgent) {
         
     }
 }
