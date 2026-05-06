@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 people-data-config.ts
 peoples-data-config.json
 peoples-data-config.md
+Jira.csv
+Jira.json
+sample-osd.json
