@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { TAssignmentDecision, TIncomingTicketToAgent } from "../dto";
 import { loadEngineerProfilesFromMarkdown } from "../routing/load-engineer-profiles";
 import { createRoutingPrompt } from "./prompt.injection";
+import { parseAssignmentDecision } from "../utils/response.parse";
 
 export class RagCoreMiddleware {
 
@@ -38,23 +39,4 @@ export class RagCoreMiddleware {
         return parseAssignmentDecision(responseText);
 
     }
-}
-
-function parseAssignmentDecision(responseText: string): TAssignmentDecision {
-    const jsonText = stripMarkdownJsonFence(responseText);
-
-    try {
-        return JSON.parse(jsonText) as TAssignmentDecision;
-    } catch (error) {
-        throw new Error(`Failed to parse assignment decision JSON: ${(error as Error).message}`);
-    }
-}
-
-function stripMarkdownJsonFence(responseText: string): string {
-    return responseText
-        .trim()
-        .replace(/^```json\s*/i, "")
-        .replace(/^```\s*/i, "")
-        .replace(/\s*```$/i, "")
-        .trim();
 }
