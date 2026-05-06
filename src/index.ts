@@ -4,6 +4,8 @@ import {
     TOsdTicket,
     transformOsdTicketsToIncomingTickets,
 } from "./utils/osd.transformer";
+import fs from "fs";
+import path from "path";
 
 async function main() {
     const apiKey = process.env.GOOGLE_API_KEY ?? process.env.GEMINI_API_KEY;
@@ -27,6 +29,11 @@ async function main() {
     console.log(`Simulating ${ticketsToSimulate.length} tickets.`);
     console.log("");
 
+    const outputDir = path.resolve("output");
+    fs.mkdirSync(outputDir, { recursive: true });
+    const outputFile = path.join(outputDir, `decisions.json`);
+    const decisions = loadExistingDecisions(outputFile);
+
     for (const ticket of ticketsToSimulate) {
         console.log("Incoming ticket:");
         console.log(`${ticket.id} - ${ticket.title}`);
@@ -36,11 +43,27 @@ async function main() {
 
             console.log("Assignment decision:");
             console.log(JSON.stringify(decision, null, 2));
+            decisions.push(decision);
+            fs.writeFileSync(outputFile, JSON.stringify(decisions, null, 2), "utf8");
         } catch (error) {
             console.error(`Failed to route ${ticket.id}: ${(error as Error).message}`);
         }
 
         console.log("");
+    }
+}
+
+function loadExistingDecisions(outputFile: string): Array<unknown> {
+    if (!fs.existsSync(outputFile)) {
+        return [];
+    }
+
+    try {
+        const existing = fs.readFileSync(outputFile, "utf8");
+        const parsed = JSON.parse(existing);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
     }
 }
 

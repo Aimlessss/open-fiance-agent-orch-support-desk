@@ -147,3 +147,5 @@ peoples-data-config.md
 Jira.csv
 Jira.json
 sample-osd.json
+.DS_Store
+output/

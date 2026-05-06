@@ -30,7 +30,6 @@ export function transformOsdTicketToIncomingTicket(
             `Status: ${readString(osdTicket, "Status")}`,
             `Resolution: ${readString(osdTicket, "Resolution")}`,
             `Reporter: ${readString(osdTicket, "Reporter")}`,
-            `Existing assignee: ${readString(osdTicket, "Assignee")}`,
             organizations.length > 0 ? `Organizations: ${organizations.join(", ")}` : "",
             environments.length > 0 ? `Environments: ${environments.join(", ")}` : "",
             `Description:\n${readString(osdTicket, "Description")}`,
