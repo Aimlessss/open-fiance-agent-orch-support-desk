@@ -2,11 +2,7 @@ import { TIncomingTicketToAgent } from "./dto";
 import { RagCoreMiddleware } from "./rag-core-middleware/rag.core";
 
 async function main() {
-    const apiKey = process.env.GOOGLE_API_KEY ?? process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-        throw new Error("Missing GOOGLE_API_KEY or GEMINI_API_KEY environment variable.");
-    }
+    const apiKey = process.env.GOOGLE_API_KEY!
 
     const ticket: TIncomingTicketToAgent = {
         id: "TICKET-001",
