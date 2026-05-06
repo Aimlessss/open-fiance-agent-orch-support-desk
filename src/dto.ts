@@ -11,6 +11,14 @@ export type TEngineersDetails = {
     specialization: string;
 };
 
+export type TEngineerRoutingProfile = {
+    name: string;
+    email: string;
+    ticketCount?: string;
+    expertise: string;
+    routeWhen: string;
+};
+
 export type TTicketsTypes = {
     id: string;
     title: string;
