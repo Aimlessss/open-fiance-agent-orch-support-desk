@@ -38,5 +38,20 @@ export type TIncomingTicketToAgent = {
     attachments? : Array<TAttachments>
 }
 
+export type TAssignmentDecision = {
+    ticketId : string, 
+    assignedToName : string,
+    assignedToEmail : string,
+    confidence : number,
+    reason : string, 
+    matchedSignals : Array<string>,
+    alternatives : Array <{
+        name : string, 
+        email : string, 
+        reason : string
+    }>,
+    needsHumanReview : boolean
+}
+
 export type Tickets = Array<TTicketsTypes>;
 export type Engineers = Array<TEngineersDetails>;
