@@ -26,15 +26,7 @@ export function createRoutingPrompt(ticket : TIncomingTicketToAgent, engineerPro
     "assignedToEmail": "...",
     "confidence": 0.0,
     "reason": "...",
-    "matchedSignals": ["..."],
-    "alternatives": [
-        {
-        "name": "...",
-        "email": "...",
-        "reason": "..."
-        }
-    ],
-    "needsHumanReview": false
+    "matchedSignals": ["..."]
     }
     `;
 }

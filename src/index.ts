@@ -1,32 +1,72 @@
-import { TIncomingTicketToAgent } from "./dto";
+import { readFile } from "node:fs/promises";
 import { RagCoreMiddleware } from "./rag-core-middleware/rag.core";
+import {
+    TOsdTicket,
+    transformOsdTicketsToIncomingTickets,
+} from "./utils/osd.transformer";
 
 async function main() {
-    const apiKey = process.env.GOOGLE_API_KEY!
+    const apiKey = process.env.GOOGLE_API_KEY ?? process.env.GEMINI_API_KEY;
 
-    const ticket: TIncomingTicketToAgent = {
-        id: "TICKET-001",
-        title: "SABSARI token endpoint returning 502",
-        priority: "SEV-2 Fault",
-        textInputs: `
-            SABSARI production token endpoint is returning 502 Bad Gateway.
-            This started after certificate renewal.
-            TPPs are also reporting invalid_client errors.
-        `,
-    };
+    if (!apiKey) {
+        throw new Error("Missing GOOGLE_API_KEY or GEMINI_API_KEY environment variable.");
+    }
 
     const ragCoreMiddleware = new RagCoreMiddleware(
         apiKey,
         "src/peoples-data-config.md",
         process.env.GEMINI_MODEL
     );
-    const decision = await ragCoreMiddleware.onRequest(ticket);
 
-    console.log("Incoming ticket:");
-    console.log(`${ticket.id} - ${ticket.title}`);
+    const osdTickets = await loadSampleOsdTickets("test-data/sample-osd.json");
+    const incomingTickets = transformOsdTicketsToIncomingTickets(osdTickets);
+    const simulationLimit = readSimulationLimit(incomingTickets.length);
+    const ticketsToSimulate = incomingTickets.slice(0, simulationLimit);
+
+    console.log(`Loaded ${incomingTickets.length} routable OSD tickets from sample-osd.json.`);
+    console.log(`Simulating ${ticketsToSimulate.length} tickets.`);
     console.log("");
-    console.log("Assignment decision:");
-    console.log(JSON.stringify(decision, null, 2));
+
+    for (const ticket of ticketsToSimulate) {
+        console.log("Incoming ticket:");
+        console.log(`${ticket.id} - ${ticket.title}`);
+
+        try {
+            const decision = await ragCoreMiddleware.onRequest(ticket);
+
+            console.log("Assignment decision:");
+            console.log(JSON.stringify(decision, null, 2));
+        } catch (error) {
+            console.error(`Failed to route ${ticket.id}: ${(error as Error).message}`);
+        }
+
+        console.log("");
+    }
+}
+
+async function loadSampleOsdTickets(filePath: string): Promise<Array<TOsdTicket>> {
+    const json = await readFile(filePath, "utf8");
+    const data = JSON.parse(json) as unknown;
+
+    if (!Array.isArray(data)) {
+        throw new Error(`Expected ${filePath} to contain a JSON array.`);
+    }
+
+    return data.filter((item): item is TOsdTicket => {
+        return typeof item === "object" && item !== null && !Array.isArray(item);
+    });
+}
+
+function readSimulationLimit(defaultLimit: number): number {
+    const rawLimit = process.env.SIMULATION_LIMIT;
+
+    if (!rawLimit) {
+        return defaultLimit;
+    }
+
+    const limit = Number.parseInt(rawLimit, 10);
+
+    return Number.isFinite(limit) && limit > 0 ? limit : defaultLimit;
 }
 
 main().catch((error) => {
