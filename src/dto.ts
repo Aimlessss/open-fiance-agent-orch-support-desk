@@ -53,5 +53,12 @@ export type TAssignmentDecision = {
     needsHumanReview : boolean
 }
 
+export type TpeoplseData = {
+    geography : string, 
+    hub : string, 
+    identifier : string, 
+    "delivery-engineer" : string
+}
+
 export type Tickets = Array<TTicketsTypes>;
 export type Engineers = Array<TEngineersDetails>;
