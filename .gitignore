@@ -119,13 +119,8 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
-# Firebase cache directory
 .firebase/
-
-# TernJS port file
 .tern-port
-
-# Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
 # yarn v3
@@ -136,8 +131,6 @@ dist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
-# Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
@@ -146,6 +139,12 @@ peoples-data-config.json
 peoples-data-config.md
 Jira.csv
 Jira.json
+Jira-2.csv
+Jira-3.csv
+
+Jira-2.json
+Jira-3.json
 sample-osd.json
 .DS_Store
 output/
+test-data/

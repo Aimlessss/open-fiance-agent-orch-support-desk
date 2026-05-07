@@ -20,7 +20,7 @@ async function main() {
         process.env.GEMINI_MODEL
     );
 
-    const osdTickets = await loadSampleOsdTickets("test-data/sample-osd.json");
+    const osdTickets = await loadSampleOsdTickets("test-data/Jira-3.json");
     const incomingTickets = transformOsdTicketsToIncomingTickets(osdTickets);
     const simulationLimit = readSimulationLimit(incomingTickets.length);
     const ticketsToSimulate = incomingTickets.slice(0, simulationLimit);
