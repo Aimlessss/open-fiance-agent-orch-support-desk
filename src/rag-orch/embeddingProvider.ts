@@ -1,4 +1,5 @@
 import { ContentEmbedding, GenerateContentResponse, GoogleGenAI } from "@google/genai";
+import { TIncomingTicketToAgent } from "../dto";
 
 export class GeminiEmbeddingProvider {
     private model : GoogleGenAI;
@@ -8,11 +9,18 @@ export class GeminiEmbeddingProvider {
         })
     }
 
-    async embed(text : string) : Promise<Array<ContentEmbedding> | undefined> {
-        const result = await this.model.models.embedContent({
-            model : "gemini-embedding-001",
-            contents : text,
-        });
-        return result.embeddings;
-    }
+async embed(ticket: TIncomingTicketToAgent): Promise<number[] | undefined> {
+  const searchableText = `
+    Title: ${ticket.title}
+    Priority: ${ticket.priority}
+    Description: ${ticket.textInputs}
+  `;
+
+  const result = await this.model.models.embedContent({
+    model: "gemini-embedding-001",
+    contents: searchableText,
+  });
+
+  return result.embeddings?.[0]?.values;
+}
 }
