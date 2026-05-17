@@ -11,6 +11,9 @@ export type TEngineersDetails = {
     specialization: string;
 };
 
+export const osdTicketQdrant = "osd-tickets";
+export const sdtTicketsQdrant = "osd-tickets";
+
 export type TEngineerRoutingProfile = {
     name: string;
     email: string;
