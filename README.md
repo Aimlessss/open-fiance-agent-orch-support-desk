@@ -1,7 +1,8 @@
 # rag orch
 
 this folder handles the rag flow for support ticket routing.
-
+a good start to see how factory pattern works 
+look here -> src/rag-orch/ragService.ts
 it:
 
 - turns an incoming ticket into an embedding
